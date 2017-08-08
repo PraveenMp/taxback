@@ -1,3 +1,4 @@
+import { Transaction } from './../shared/models/Transaction';
 import { ITransaction } from './../shared/interfaces/ITransaction';
 import { UserService } from './../shared/services/user.services';
 import { PagerService } from './../shared/services/pager.services';
@@ -17,14 +18,26 @@ export class UserComponent implements OnInit {
   pager: any = {};
   pagedItems: any[];
   public showForm: boolean;
+  public transaction: Transaction;
+  public currencyType: any;
 
   constructor(private userServices: UserService, private pagerService: PagerService) {
 
     }
 
      ngOnInit() {
-       this.showForm = false;
+       this.initialization();
        this.getAlltransactions();
+     }
+
+     initialization() {
+       this.transaction = new Transaction();
+       this.showForm = false;
+       this.currencyType = ['INR', 'USD', 'GBP', 'EUR']
+     }
+
+     createNewTransaction() {
+       this.transaction = new Transaction();
      }
 
      // Get All the transactions
@@ -39,6 +52,10 @@ export class UserComponent implements OnInit {
         })
      }
 
+     // Submit
+     onSubmit() {
+
+     }
 
 
       setPage(page: number) {
