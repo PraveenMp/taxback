@@ -1,1 +1,71 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  padding: 0px;
+  margin: 0px;
+  background: #f3f3f4;
+}
+.container-fluid {
+  padding: 0px;
+}
+
+.add-button {
+    cursor:pointer;
+    margin:10px 0px;
+}
+.form {
+    margin:20px 0px;
+}
+.cust-pointer {
+     cursor:pointer;
+}
+.delete-confirmation {
+    position: absolute;
+    z-index: 555;
+    background: rgba(0,0,0,0.5);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    padding: 25% 0px;
+    color: #fff;
+}
+.rating[_ngcontent-c1] {
+    outline: -webkit-focus-ring-color auto 0px;
+}
+/*tooltip {
+        position: absolute;
+}*/
+
+.tooltip1{position:relative;}
+.tooltip1 .dumClass {
+    z-index: 10;
+    display: none;
+    padding: 14px 20px;
+    bottom:20px;
+    left:0;
+    width: 240px;
+    line-height: 16px;
+    position: absolute;
+}
+
+.tooltip1:hover .dumClass {
+    display: inline;
+    color: #ffffff;
+    border: 1px solid #DCA;
+    background: #444;
+    -moz-border-radius: 11px;
+    -webkit-border-radius: 11px;
+    border-radius: 11px;
+}
+
+.dumClass:after {
+    position: absolute;
+    display: block;
+    content: "";
+    border-style: solid;
+    border-width: 8px;
+    height: 0;
+    width: 0;
+    border-color: #444 transparent transparent transparent;
+    bottom: -16px;
+    left: 14px;
+}
