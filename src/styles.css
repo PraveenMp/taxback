@@ -69,3 +69,16 @@ body {
     bottom: -16px;
     left: 14px;
 }
+  .custom-content {
+    margin: 15px;
+    background: #fff;
+    padding: 15px;
+  }
+
+  .cust-btn {
+    padding-top: 30px;
+  }
+
+  .disabled {
+    cursor: not-allowed;
+  }

@@ -1,35 +1,64 @@
-<div>
-  <h2>User Details</h2>
+<div class="custom-content">
+  <h4>Hi {{user | uppercase }},</h4>
   <hr>
-  <button class="btn btn-warning add-button" (click)="showForm=!showForm">Add Agent</button>
-  <div class="form col-md-4" *ngIf="showForm">
+  <button class="btn btn-warning add-button" (click)="showForm=!showForm">Add Transaction</button>
+  <div class="form" *ngIf="showForm">
     <form (ngSubmit)="onSubmit()" #trasactionForm="ngForm">
-      <div class="form-group">
-        <label for="amount">Amount</label>
-        <input type="text" class="form-control" id="amount" required [(ngModel)]="transaction.amount" name="amount" #amount="ngModel">
-        <div [hidden]="amount.valid || amount.pristine" class="alert alert-danger">
-          Amount is required
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="amount">Amount</label>
+            <input type="text" class="form-control" id="amount" required [(ngModel)]="transaction.amount" name="amount" #amount="ngModel">
+            <div [hidden]="amount.valid || amount.pristine" class="alert alert-danger">
+              Amount is required
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="currency">Currency</label>
-        <select id="currency" class="form-control" [(ngModel)]="transaction.currency" name="currency" #currency="ngModel" required>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="currency">Currency</label>
+            <select id="currency" class="form-control" [(ngModel)]="transaction.currency" name="currency" #currency="ngModel" required>
                    <option *ngFor="let currency of currencyType"[ngValue]="currency">{{currency}}</option>
                </select>
-        <div [hidden]="currency.valid || currency.pristine" class="alert alert-danger">
-          Currency is required
+            <div [hidden]="currency.valid || currency.pristine" class="alert alert-danger">
+              Currency is required
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="txn_date">Currency</label>
+            <input type="date" class="form-control" id="txn_date" required [(ngModel)]="transaction.txn_date" name="txn_date" #txndate="ngModel">
+            <div [hidden]="txndate.valid || txndate.pristine" class="alert alert-danger">
+              Amount is required
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 cust-btn">
+          <button type="submit" class="btn btn-success" [disabled]="!trasactionForm.form.valid || !currency.valid">Submit</button>
+          <button type="submit" class="btn btn-default cust-pointer" (click)="cancel()">Cancel</button>
         </div>
       </div>
-      <div class="form-group">
-        <label for="txn_date">Currency</label>
-        <input type="date" class="form-control" id="txn_date" required [(ngModel)]="transaction.txn_date" name="txn_date" #txndate="ngModel">
-        <div [hidden]="txndate.valid || txndate.pristine" class="alert alert-danger">
-          Amount is required
-        </div>
-      </div>
-      <button type="submit" class="btn btn-success" [disabled]="!trasactionForm.form.valid || !currency.valid">Submit</button>
-      <button type="submit" class="btn btn-default cust-pointer" (click)="cancel()">Cancel</button>
     </form>
+
+  </div>
+  <div *ngIf="message" class="alert alert-success alert-dismissible fade show col-md-5" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+    <strong>{{message }} </strong>
+  </div>
+  <div *ngIf="delteMessage" class="alert alert-success alert-dismissible fade show col-md-5" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+    <strong>{{delteMessage }} </strong>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4> Transaction Details </h4>
+      <hr />
+    </div>
   </div>
   <table class="table table-bordered">
     <thead>
@@ -38,20 +67,21 @@
         <th>Amount</th>
         <th>currency</th>
         <th>Date</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody *ngIf="!errorMessage">
-      <tr *ngFor="let transaction of pagedItems;let i=index">
-        <th scope="row">{{i+1}}</th>
+      <tr *ngFor="let transaction of pagedItems;">
+        <td scope="row">{{transaction.id}}</td>
         <td>{{transaction.amount | currency:transaction.currency:true}}</td>
         <td>{{transaction.currency}}</td>
         <td>{{transaction.txn_date | date:'longDate' }}</td>
-        <td><button class="btn btn-success" (click)="updateAgent(user)">Edit</button>
-          <button class="btn btn-danger" (click)="deleteAgent(user.id)">Delete</button> </td>
+        <td><button class="btn btn-success" (click)="updateTransaction(transaction)">Edit</button>
+          <button class="btn btn-danger" (click)="deleteTransaction(transaction)">Delete</button> </td>
       </tr>
     </tbody>
   </table>
-  <h3 *ngIf="errorMessage">No Listings Found</h3>
+  <h3 *ngIf="errorMessage">No Transactions Found</h3>
   <nav aria-label="Page navigation example">
     <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
       <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item">

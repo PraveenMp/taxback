@@ -1,6 +1,7 @@
+import { Transaction } from './../models/Transaction';
 import { ITransaction } from './../interfaces/ITransaction';
 import { Injectable } from '@angular/core'
-import { Http, Response } from '@angular/http'
+import { Http, Response, URLSearchParams } from '@angular/http'
 import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch'
@@ -21,26 +22,34 @@ public httpHeaders;
     }
 
     getTrasaction(email: string, id: string) {
-        return this.http.get(this.appHelpersSvc.apiAddress + email + '/' + id,
-            { headers: this.httpHeaders })
+        return this.http.get(this.appHelpersSvc.apiAddress + email + '/' + id)
             .map((response: Response) => <ITransaction>response.json()).catch(this.handleError);
     }
 
-    saveUser(user) {
-        return this.http.post(this.appHelpersSvc.apiAddress + 'agent', JSON.stringify(user),
-            { headers: this.httpHeaders })
+    saveTransaction(transaction: Transaction, email: string) {
+
+          const params = new FormData()
+          params.append('amount', transaction.amount);
+          params.append('currency', transaction.currency);
+          params.append('txn_date', transaction.txn_date);
+
+          return this.http.post(this.appHelpersSvc.apiAddress + email, params)
             .map((response: Response) => <ITransaction>response.json()).catch(this.handleError);
     }
 
-    updateUser(user) {
-        return this.http.post(this.appHelpersSvc.apiAddress + 'agent', JSON.stringify(user),
-            { headers: this.httpHeaders })
+    updateTransaction(transaction: Transaction, email: string) {
+
+          const params = new FormData()
+          params.append('amount', transaction.amount);
+          params.append('currency', transaction.currency);
+          params.append('txn_date', transaction.txn_date);
+
+          return this.http.post(this.appHelpersSvc.apiAddress + email + '/' + transaction.id, params)
             .map((response: Response) => <ITransaction>response.json()).catch(this.handleError);
     }
 
-    deleteAgent(email: string, id: string) {
-        return this.http.delete(this.appHelpersSvc.apiAddress + 'email/' + id,
-            { headers: this.httpHeaders })
+    deleteTransaction(id: string, email: string) {
+        return this.http.delete(this.appHelpersSvc.apiAddress + email + '/' + id)
             .map((response: Response) => <ITransaction>response.json()).catch(this.handleError);
     }
 
